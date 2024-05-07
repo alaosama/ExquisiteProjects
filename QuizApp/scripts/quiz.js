@@ -31,4 +31,26 @@ class Quiz {
         let id = this._questions.length;
         this._questions.push({ id, title, options })
     }
+
+    // Start the quiz
+    start() {
+        if (!this._questions.length) {
+            console.log("There is not any question");
+            return;
+        }
+
+        if (this._startTime) {
+            console.log("Already started.");
+            return;
+        }
+
+        this.reset();
+        this._startTime = new Date().getTime();
+
+        this._setTicker();
+
+        return this.currentQuestion;
+    }
+
+    
 }
