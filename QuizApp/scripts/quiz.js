@@ -1,0 +1,34 @@
+let TIME_OVER_SYM = Symbol("TO");
+let TIMER_INTERVAL_SYM = Symbol("TI");
+
+class Quiz {
+
+    constructor(title, description, time, questions = []) {
+
+        if (!title)
+            throw new Error("Title of quiz is required.");
+
+        if (!description)
+            throw new Error("Description of quiz is required.");
+
+        if (!time || time < 10)
+            throw new Error("Time is required and must be more than 10 sec.");
+
+        this.title = title;
+        this.description = description;
+        this._time = time;
+        this[TIME_OVER_SYM] = null;
+        this[TIMER_INTERVAL_SYM] = null;
+        this._questions = questions;
+    }
+
+    addQuestion(title, options) {
+        if (this._startTime) {
+            console.log("Question can not added on a started quiz.");
+            return;
+        }
+
+        let id = this._questions.length;
+        this._questions.push({ id, title, options })
+    }
+}
