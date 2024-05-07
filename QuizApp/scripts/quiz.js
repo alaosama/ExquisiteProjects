@@ -52,5 +52,22 @@ class Quiz {
         return this.currentQuestion;
     }
 
+    // Stop the running quiz
+    stop() {
+        this._endTime = new Date().getTime();
+        clearInterval(this[TIMER_INTERVAL_SYM]);
+        this[TIMER_INTERVAL_SYM] = null;
+    }
+
+    // This will return the head question of running quiz
+    get currentQuestion() {
+        if (!this._startTime) {
+            console.log("Quiz not started");
+            return;
+        }
+
+        return this._questions[this._currentQuestionIndex];
+    }
+
     
 }
