@@ -218,5 +218,28 @@ class Quiz {
             timeOver: this[TIME_OVER_SYM]
         }
     }
-    
+
+    // Control the ticker of the time of the running quiz
+    _setTicker() {
+        if (!this._startTime) {
+            console.log("Quiz not started yet.");
+            return;
+        }
+
+        if (this[TIMER_INTERVAL_SYM]) {
+            console.log("The ticker has been set before");
+            return;
+        }
+
+        let privateRemainingTimeInSec = this._time;
+        this[TIME_OVER_SYM] = false;
+        this[TIMER_INTERVAL_SYM] = setInterval(() => {
+            --privateRemainingTimeInSec;
+            this._remainingTime = privateRemainingTimeInSec;
+            if (privateRemainingTimeInSec <= 0) {
+                this[TIME_OVER_SYM] = true;
+                this.stop();
+            }
+        }, 1000)
+    }
 }
