@@ -114,5 +114,50 @@ class Quiz {
 
         this._questions = this._questions.map(q => ({ id: q.id, title: q.title, options: q.options }))
     }
+
+    // Answer the head question of the running quiz with a selected option
+    answerCurrentQuestion(option) {
+        if (!this._startTime) {
+            console.log("Start the quiz first");
+            return;
+        }
+
+        let response = {
+            timeOver: this[TIME_OVER_SYM],
+            finished: this.isOnLastQuestion() || this._endTime || this[TIME_OVER_SYM]
+        };
+
+        if (!this[TIME_OVER_SYM]) {
+
+            const currentQ = this.currentQuestion;
+            if (currentQ.skip !== void (0)) {
+                console.log("You already skipped this question");
+                return;
+            }
+            if (currentQ.answer !== void (0)) {
+                console.log("You already answered this question");
+                return;
+            }
+            currentQ.answer = option;
+            const answerResult = checkAnswerValidity(currentQ.id, option);
+            currentQ.result = answerResult;
+
+            response.answerResult = answerResult;
+
+            if (!response.finished) {
+                const nextQ = askNextQuestion.call(this);
+                if (nextQ) {
+                    response.nextQ = nextQ;
+                }
+            }
+        }
+
+        if (response.finished) {
+            response.result = this.result();
+            this.stop();
+        }
+
+        return response;
+    }
     
 }
