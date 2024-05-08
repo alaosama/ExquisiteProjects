@@ -243,3 +243,33 @@ class Quiz {
         }, 1000)
     }
 }
+
+// Private function to ask next question
+function askNextQuestion() {
+    if (!this._startTime) {
+        console.log("Quiz not started");
+        return;
+    }
+
+    const currentQ = this.currentQuestion;
+    if (currentQ.answer === void (0) && currentQ.skip === void (0)) {
+        console.log("Current question answered or skipped.");
+        return;
+    }
+
+    if (this.isOnLastQuestion()) {
+        console.log("No more question.");
+        return;
+    }
+
+    return this._questions[++this._currentQuestionIndex];
+}
+
+// Check the validity of the selected option
+function checkAnswerValidity(questionID, option) {
+
+    // Every checking could be apply here but
+    // the correct answer is the second option in
+    // my questions because of its simplicity
+    return +option === 1;
+}
