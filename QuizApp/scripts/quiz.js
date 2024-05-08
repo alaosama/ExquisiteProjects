@@ -273,3 +273,26 @@ function checkAnswerValidity(questionID, option) {
     // my questions because of its simplicity
     return +option === 1;
 }
+
+// Convert number (in second) to time-string
+function secToTimeStr(seconds) {
+
+    let timeInHour = Math.floor(seconds / 3600);
+    let timeInMin = Math.floor((seconds % 3600) / 60);
+    let timeInSec = Math.floor(seconds % 60);
+
+    if (timeInHour < 10)
+        timeInHour = `0${timeInHour}`;
+
+    if (timeInMin < 10)
+        timeInMin = `0${timeInMin}`;
+
+    if (timeInSec < 10)
+        timeInSec = `0${timeInSec}`;
+
+    let timeStr = `${timeInMin}:${timeInSec}`;
+    if (parseInt(timeInHour))
+        timeStr = `${timeInHour}:${timeStr}`;
+
+    return timeStr;
+}
