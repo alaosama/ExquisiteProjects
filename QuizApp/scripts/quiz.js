@@ -159,5 +159,64 @@ class Quiz {
 
         return response;
     }
+
+    // Skip the head question and pick next question if exist
+    skipCurrentQuestion() {
+        if (!this._startTime) {
+            console.log("Start the quiz first");
+            return;
+        }
+
+        let response = {
+            timeOver: this[TIME_OVER_SYM],
+            finished: this.isOnLastQuestion() || this._endTime || this[TIME_OVER_SYM]
+        };
+
+        if (!this[TIME_OVER_SYM]) {
+
+            const currentQ = this.currentQuestion;
+            if (currentQ.skip !== void (0)) {
+                console.log("You already skipped this question");
+                return;
+            }
+            if (currentQ.answer !== void (0)) {
+                console.log("You already answered this question");
+                return;
+            }
+            currentQ.skip = true;
+
+            if (!response.finished) {
+                const nextQ = askNextQuestion.call(this);
+                if (nextQ) {
+                    response.nextQ = nextQ;
+                }
+            }
+        }
+
+        if (response.finished) {
+            response.result = this.result();
+            this.stop();
+        }
+
+        return response;
+    }
+
+    // Check if the head question is the last question of running quiz
+    isOnLastQuestion() {
+        return this._currentQuestionIndex + 1 >= this._questions.length
+    }
+
+    // Get the details of the timing of the quiz
+    get timeDetails() {
+        let now = new Date().getTime();
+        return {
+            quizTime: this._time,
+            start: this._startTime,
+            end: this._endTime,
+            elapsedTime: ((this._endTime || now) - this._startTime) / 1000, // ms to sec
+            remainingTime: secToTimeStr(this._remainingTime),
+            timeOver: this[TIME_OVER_SYM]
+        }
+    }
     
 }
