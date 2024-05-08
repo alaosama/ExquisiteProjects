@@ -69,5 +69,50 @@ class Quiz {
         return this._questions[this._currentQuestionIndex];
     }
 
+
+    // Get the result of running quiz
+    result() {
+        if (!this._startTime) {
+            console.log("Quiz not started.");
+            return;
+        }
+
+        let skipped = 0;
+        let correct = 0;
+        this._questions.map(q => {
+            if (q.result)
+                correct++;
+            else if (q.skip)
+                skipped++;
+        });
+
+        let score = (100 * correct) / this._questions.length;
+
+        return {
+            questionsCount: this._questions.length,
+            skipped,
+            correct,
+            score,
+            timeOver: this[TIME_OVER_SYM],
+            finished: this.isOnLastQuestion() || this[TIME_OVER_SYM] || this._endTime
+        };
+    }
+
+    // Reset the running quiz status and make it ready to start again
+    reset() {
+        if (this._startTime && !this._endTime) {
+            console.log("Can not reset the running quiz.");
+            return;
+        }
+
+        this._startTime = null;
+        this._endTime = null;
+        this._remainingTime = this._time;
+        this._currentQuestionIndex = 0;
+        this[TIME_OVER_SYM] = false;
+        clearInterval(this[TIMER_INTERVAL_SYM]);
+
+        this._questions = this._questions.map(q => ({ id: q.id, title: q.title, options: q.options }))
+    }
     
 }
