@@ -62,6 +62,10 @@ function initApp() {
         `Quizzler is a fun new way to practice, improve, and test your Javascript skills.`,
         70,
         questions);
-
     
+        // questions.map(q => quiz.addQuestion(q.title, q.options));
+    
+        new QuizElementsHelper(app, quizCard, questionsCard, resultCard, quiz);
 }
+    
+initApp();
