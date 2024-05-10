@@ -98,5 +98,55 @@ class QuizElementsHelper {
     this.quizCard.classList.add("show");
   }
 
+  // Hide the quiz card
+  hideQuizCard() {
+    this.quizCard.classList.remove("show");
+  }
+
+  // Show the question card
+  showQuestionsCard() {
+    this.hideQuizCard();
+
+    this.questionCard.classList.add("show");
+    this.questionCard.classList.remove("time-over");
+
+    this.startQuiz();
+  }
+
+  // Hide the question card
+  hideQuestionsCard() {
+    this.questionCard.classList.remove("show");
+  }
+
+  // Handle the visibility of the result card
+  showResultCard(result) {
+    this.hideQuestionsCard();
+
+    if (this.resultCard.scoreElm && result)
+      this.resultCard.scoreElm.innerText = Math.floor(result.score * 10) / 10;
+
+    this.resultCard.classList.add("show");
+  }
+
+  // Hide the result card
+  hideResultCard() {
+    this.resultCard.classList.remove("show");
+    this.showQuizCard();
+  }
+
+  // Handle the starting of the quiz and control the status of it
+  startQuiz() {
+    this.resetPreviousQuiz();
+    this.quiz.reset();
+    const firstQuestion = this.quiz.start();
+    if (firstQuestion) {
+      this.parseNextQuestion(firstQuestion);
+    }
+
+    this.questionCard.nextBtn.innerText = "Next";
+
+    this._setProgressTicker();
+  }
+
   
 }
