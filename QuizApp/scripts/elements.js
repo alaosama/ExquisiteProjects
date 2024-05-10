@@ -197,5 +197,41 @@ class QuizElementsHelper {
     if (selectedOption) selectedOption.checked = false;
   }
 
+  // To reset the previous quiz status before restarting it
+  resetPreviousQuiz() {
+    this.quiz.stop();
+    clearInterval(this.remainingTimeInterval);
+
+    this.resultCard.scoreElm.innerText = 0;
+    this.questionCard.progressRemainingTimeElm.innerText = "00:00";
+    this.questionCard.progressbarElm.style.width = "100%";
+  }
+
+  // This will call when next button clicked
+  nextBtnHandler() {
+    const selectedOption = document.querySelector(
+      "input[name=question-option]:checked"
+    );
+
+    let result;
+    if (!selectedOption) {
+      result = this.quiz.skipCurrentQuestion();
+    } else {
+      result = this.quiz.answerCurrentQuestion(selectedOption.value);
+    }
+
+    if (result.finished || result.timeOver) {
+      this.showResultCard(result.result);
+    } else if (result) {
+      this.parseNextQuestion(result.nextQ);
+    }
+  }
+
+  // This will call when stop button clicked
+  stopBtnHandler() {
+    this.resetPreviousQuiz();
+    this.showResultCard();
+  }
+
   
 }
