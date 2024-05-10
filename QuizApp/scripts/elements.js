@@ -148,5 +148,54 @@ class QuizElementsHelper {
     this._setProgressTicker();
   }
 
+  // Initialize the quiz time progress on every time that quiz starts
+  // to control the progressbar and remaining time
+  _setProgressTicker() {
+    this.remainingTimeInterval = setInterval(() => {
+      const qTime = this.quiz.timeDetails;
+      if (qTime && qTime.remainingTime) {
+        // Update remaining time span
+        this.questionCard.progressRemainingTimeElm.innerText =
+          qTime.remainingTime;
+
+        // Update progressbar
+        let progressPercent =
+          ((qTime.quizTime - qTime.elapsedTime) * 100) / qTime.quizTime;
+        if (progressPercent < 0) progressPercent = 0;
+        this.questionCard.progressbarElm.style.width = progressPercent + "%";
+      }
+
+      // Clear & stop interval when time over
+      if (qTime.timeOver) {
+        this.questionCard.classList.add("time-over");
+        this.questionCard.nextBtn.innerText = "Show Result";
+        clearInterval(this.remainingTimeInterval);
+      }
+    }, 1000);
+  }
+
+  // This method putting the question in the question card
+  parseNextQuestion(question) {
+    const selectedOption = document.querySelector(
+      "input[name=question-option]:checked"
+    );
+
+    this.questionCard.progressQuestionCountElm.innerText = `Question ${this.quiz
+      ._currentQuestionIndex + 1}/${this.quiz._questions.length}`;
+    this.questionCard.questionTitleElm.setAttribute(
+      "data-qn",
+      `Q ${this.quiz._currentQuestionIndex + 1}:`
+    );
+    this.questionCard.questionTitleElm.innerText = question.title;
+
+    this.questionCard.optionOneElm.innerText = question.options[0];
+    this.questionCard.optionTwoElm.innerText = question.options[1];
+    this.questionCard.optionThreeElm.innerText = question.options[2];
+    this.questionCard.optionFourElm.innerText = question.options[3];
+
+    // Reset pre selected options on every next
+    if (selectedOption) selectedOption.checked = false;
+  }
+
   
 }
