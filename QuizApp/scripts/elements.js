@@ -70,5 +70,33 @@ class QuizElementsHelper {
     this.resultCard.scoreElm = this.resultCard.querySelector("#score");
   }
 
+  initListeners() {
+    this.quizCard.startBtn.addEventListener(
+      "click",
+      this.showQuestionsCard.bind(this)
+    );
+    this.questionCard.nextBtn.addEventListener(
+      "click",
+      this.nextBtnHandler.bind(this)
+    );
+    this.questionCard.stopBtn.addEventListener(
+      "click",
+      this.stopBtnHandler.bind(this)
+    );
+    this.resultCard.gotoHome.addEventListener(
+      "click",
+      this.hideResultCard.bind(this)
+    );
+  }
+
+  showQuizCard() {
+    this.quizCard.titleElm.innerText = this.quiz.title;
+    this.quizCard.descriptionElm.innerText = this.quiz.description;
+    this.quizCard.metaQCElm.innerText = this.quiz._questions.length;
+    this.quizCard.metaTimeElm.innerText = this.quiz._time;
+
+    this.quizCard.classList.add("show");
+  }
+
   
 }
