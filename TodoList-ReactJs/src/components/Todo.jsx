@@ -11,7 +11,7 @@ const Todo = () => {
     const add = () => {
         const inputText = inputRef.current.value.trim(); //trim bach thyed lik space ila ktebti 
         
-        if(!inputText === '') {
+        if(inputText === "") {
             return null;
         }
 
@@ -21,7 +21,7 @@ const Todo = () => {
             isCompleted: false,
         }
         setTodoList((prev)=> [...prev, newTodo]);
-        inputRef.current.value = '';
+        inputRef.current.value = "";
     }
 
     const deleteTodo = (id) => {

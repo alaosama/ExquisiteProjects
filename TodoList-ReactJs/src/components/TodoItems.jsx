@@ -3,7 +3,7 @@ import tick from '../assets/tick.png'
 import not_tick from '../assets/not_tick.png'
 import delete_icon from '../assets/delete.png'
 
-const TodoItems = ({task, id, isComplete, deleteTodo, toggle}) => {
+const TodoItems = ({task, id, isCompleted, deleteTodo, toggle}) => {
   return (
 
     <div className='flex items-center my-3 gap-2'>
@@ -11,9 +11,9 @@ const TodoItems = ({task, id, isComplete, deleteTodo, toggle}) => {
       <div onClick={()=>{toggle(id)}} 
       className='flex flex-1 items-center cursor-pointer'>
         
-        <img src={isComplete ? tick : not_tick} alt="" className='w-7' />
+        <img src={isCompleted ? tick : not_tick} alt="" className='w-7' />
         <p className={`tex-slate-700 ml-4 text-[17px] decoration-slate-500
-        ${isComplete ? "line-through" : ""}`}>{task}</p>
+        ${isCompleted ? "line-through" : ""}`}>{task}</p>
       </div>
     
       <img onClick={()=>{deleteTodo(id)}} src={delete_icon} alt="" 
