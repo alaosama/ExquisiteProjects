@@ -4,7 +4,8 @@ import TodoItems from './TodoItems'
 
 const Todo = () => {
 
-    const [todoList, setTodoList] = useState([]); // [task1, task2, task3, ... 
+    const [todoList, setTodoList] = useState(localStorage.getItem("tods")?
+                                    JSON.parse(localStorage.getItem("todos")) : []); // [task1, task2, task3, ... 
 
     const inputRef = useRef();
 
@@ -42,10 +43,7 @@ const Todo = () => {
     }
 
     useEffect(() => {
-        const data = localStorage.getItem('todoList');
-        if(data) {
-            setTodoList(JSON.parse(data));
-        }
+        localStorage.setItem('todos', JSON.stringify(todoList));
     }, [todoList])
 
   return (
