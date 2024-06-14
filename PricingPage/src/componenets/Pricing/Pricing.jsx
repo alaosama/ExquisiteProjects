@@ -36,7 +36,25 @@ const Pricing = () => {
                 }/>
             </div>
 
-
+            {/* Pricing Cards */}
+            <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-10 md:w11/12 mx-auto'>
+                {
+                    packages.map((pack, index) => (
+                        <div key={index} className='border py-10 md:px-6 px-4 rounded-lg shadow-3x1'>
+                            <h3 className='text-3x1 font-bold text-center text-primary'>{pack.name}</h3>
+                            <p className='text-tartiary text-center my-5'>{pack.description}</p>
+                            <p className='mt-5 text-center text-secoundary text-4-1 font-bold'>
+                                {isYearly ? `$${pack.yearlyPrice}` : `$${pack.monthlyPrice}`}
+                                <span className='text-base text-tartiary font-medium'>
+                                    {isYearly ? 'year' : 'month'}</span>
+                            </p>
+                            <ul className='mt-4 space-y-2 px-4'>
+                                <li>Videos of Lessons</li>
+                            </ul>
+                        </div>
+                    ))
+                }
+            </div>
         </div>
     </div>
   )
